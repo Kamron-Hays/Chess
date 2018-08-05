@@ -1,0 +1,153 @@
+<html>
+  <head>
+    <title>Chess</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body>
+    <h1>Foo</h1>
+    <p id="status">
+      <%= session[:status] %>
+      <% if session[:game_over].nil? || session[:game_over] %>
+        Start game or select side
+        <button id="white" name="white">White</button>
+        <button id="black" name="black">Black</button>
+      <% else %>
+        <button id="restart" name="restart">Restart Game</button>
+      <% end %>
+    </p>
+    <p>
+      <form action="/" id="board" name="board" method="post">
+        <% if false %>
+          <input type="text" name="input" id="input" value="machine">
+        <% else %>
+          <input type="text" name="input" id="input">
+        <% end %>
+      </form>
+      <table>
+        <tr>
+          <td class="row_label_left"></td>
+          <td class="column_label_top" name="a">a</td>
+          <td class="column_label_top" name="b">b</td>
+          <td class="column_label_top" name="c">c</td>
+          <td class="column_label_top" name="d">d</td>
+          <td class="column_label_top" name="e">e</td>
+          <td class="column_label_top" name="f">f</td>
+          <td class="column_label_top" name="g">g</td>
+          <td class="column_label_top" name="h">h</td>
+          <td class="row_label_right"></td>
+        </tr>
+        <tr>
+          <td class="row_label_left" name="8">8</td>
+          <td id="a8" name="a8" class="square"><%= get_image("a8") %></td>
+          <td id="b8" name="b8" class="square"><%= get_image("b8") %></td>
+          <td id="c8" name="c8" class="square"><%= get_image("c8") %></td>
+          <td id="d8" name="d8" class="square"><%= get_image("d8") %></td>
+          <td id="e8" name="e8" class="square"><%= get_image("e8") %></td>
+          <td id="f8" name="f8" class="square"><%= get_image("f8") %></td>
+          <td id="g8" name="g8" class="square"><%= get_image("g8") %></td>
+          <td id="h8" name="h8" class="square"><%= get_image("h8") %></td>
+          <td class="row_label_right" name="8">8</td>
+        </tr>
+        <tr>
+          <td class="row_label_left" name="7">7</td>
+          <td id="a7" name="a7" class="square"><%= get_image("a7") %></td>
+          <td id="b7" name="b7" class="square"><%= get_image("b7") %></td>
+          <td id="c7" name="c7" class="square"><%= get_image("c7") %></td>
+          <td id="d7" name="d7" class="square"><%= get_image("d7") %></td>
+          <td id="e7" name="e7" class="square"><%= get_image("e7") %></td>
+          <td id="f7" name="f7" class="square"><%= get_image("f7") %></td>
+          <td id="g7" name="g7" class="square"><%= get_image("g7") %></td>
+          <td id="h7" name="h7" class="square"><%= get_image("h7") %></td>
+          <td class="row_label_right" name="7">7</td>
+        </tr>
+        <tr>
+          <td class="row_label_left" name="6">6</td>
+          <td id="a6" name="a6" class="square"><%= get_image("a6") %></td>
+          <td id="b6" name="b6" class="square"><%= get_image("b6") %></td>
+          <td id="c6" name="c6" class="square"><%= get_image("c6") %></td>
+          <td id="d6" name="d6" class="square"><%= get_image("d6") %></td>
+          <td id="e6" name="e6" class="square"><%= get_image("e6") %></td>
+          <td id="f6" name="f6" class="square"><%= get_image("f6") %></td>
+          <td id="g6" name="g6" class="square"><%= get_image("g6") %></td>
+          <td id="h6" name="h6" class="square"><%= get_image("h6") %></td>
+          <td class="row_label_right" name="6">6</td>
+        </tr>
+        <tr>
+          <td class="row_label_left" name="5">5</td>
+          <td id="a5" name="a5" class="square"><%= get_image("a5") %></td>
+          <td id="b5" name="b5" class="square"><%= get_image("b5") %></td>
+          <td id="c5" name="c5" class="square"><%= get_image("c5") %></td>
+          <td id="d5" name="d5" class="square"><%= get_image("d5") %></td>
+          <td id="e5" name="e5" class="square"><%= get_image("e5") %></td>
+          <td id="f5" name="f5" class="square"><%= get_image("f5") %></td>
+          <td id="g5" name="g5" class="square"><%= get_image("g5") %></td>
+          <td id="h5" name="h5" class="square"><%= get_image("h5") %></td>
+          <td class="row_label_right" name="5">5</td>
+        </tr>
+        <tr>
+          <td class="row_label_left" name="4">4</td>
+          <td id="a4" name="a4" class="square"><%= get_image("a4") %></td>
+          <td id="b4" name="b4" class="square"><%= get_image("b4") %></td>
+          <td id="c4" name="c4" class="square"><%= get_image("c4") %></td>
+          <td id="d4" name="d4" class="square"><%= get_image("d4") %></td>
+          <td id="e4" name="e4" class="square"><%= get_image("e4") %></td>
+          <td id="f4" name="f4" class="square"><%= get_image("f4") %></td>
+          <td id="g4" name="g4" class="square"><%= get_image("g4") %></td>
+          <td id="h4" name="h4" class="square"><%= get_image("h4") %></td>
+          <td class="row_label_right" name="4">4</td>
+        </tr>
+        <tr>
+          <td class="row_label_left" name="3">3</td>
+          <td id="a3" name="a3" class="square"><%= get_image("a3") %></td>
+          <td id="b3" name="b3" class="square"><%= get_image("b3") %></td>
+          <td id="c3" name="c3" class="square"><%= get_image("c3") %></td>
+          <td id="d3" name="d3" class="square"><%= get_image("d3") %></td>
+          <td id="e3" name="e3" class="square"><%= get_image("e3") %></td>
+          <td id="f3" name="f3" class="square"><%= get_image("f3") %></td>
+          <td id="g3" name="g3" class="square"><%= get_image("g3") %></td>
+          <td id="h3" name="h3" class="square"><%= get_image("h3") %></td>
+          <td class="row_label_right" name="3">3</td>
+        </tr>
+        <tr>
+          <td class="row_label_left" name="2">2</td>
+          <td id="a2" name="a2" class="square"><%= get_image("a2") %></td>
+          <td id="b2" name="b2" class="square"><%= get_image("b2") %></td>
+          <td id="c2" name="c2" class="square"><%= get_image("c2") %></td>
+          <td id="d2" name="d2" class="square"><%= get_image("d2") %></td>
+          <td id="e2" name="e2" class="square"><%= get_image("e2") %></td>
+          <td id="f2" name="f2" class="square"><%= get_image("f2") %></td>
+          <td id="g2" name="g2" class="square"><%= get_image("g2") %></td>
+          <td id="h2" name="h2" class="square"><%= get_image("h2") %></td>
+          <td class="row_label_right" name="2">2</td>
+        </tr>
+        <tr>
+          <td class="row_label_left" name="1">1</td>
+          <td id="a1" name="a1" class="square"><%= get_image("a1") %></td>
+          <td id="b1" name="b1" class="square"><%= get_image("b1") %></td>
+          <td id="c1" name="c1" class="square"><%= get_image("c1") %></td>
+          <td id="d1" name="d1" class="square"><%= get_image("d1") %></td>
+          <td id="e1" name="e1" class="square"><%= get_image("e1") %></td>
+          <td id="f1" name="f1" class="square"><%= get_image("f1") %></td>
+          <td id="g1" name="g1" class="square"><%= get_image("g1") %></td>
+          <td id="h1" name="h1" class="square"><%= get_image("h1") %></td>
+          <td class="row_label_right" name="1">1</td>
+        </tr>
+        <tr>
+          <td class="row_label_left"></td>
+          <td class="column_label_bottom" name="a">a</td>
+          <td class="column_label_bottom" name="b">b</td>
+          <td class="column_label_bottom" name="c">c</td>
+          <td class="column_label_bottom" name="d">d</td>
+          <td class="column_label_bottom" name="e">e</td>
+          <td class="column_label_bottom" name="f">f</td>
+          <td class="column_label_bottom" name="g">g</td>
+          <td class="column_label_bottom" name="h">h</td>
+          <td class="row_label_right"></td>
+        </tr>
+      </table>
+    </p>
+
+    <script type="text/javascript" src="jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="board.js"></script>
+  </body>
+</html>

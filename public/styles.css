@@ -1,0 +1,60 @@
+#input { display: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td {
+  border: 1px solid black;
+  height: 60px;
+  width: 60px;
+  text-align: center;
+}
+/*
+#a1, #a3, #a5, #a7,
+#b2, #b4, #b6, #b8,
+#c1, #c3, #c5, #c7,
+#d2, #d4, #d6, #d8,
+#e1, #e3, #e5, #e7,
+#f2, #f4, #f6, #f8,
+#g1, #g3, #g5, #g7,
+#h2, #h4, #h6, #h8 {
+  background: Gray
+}
+*/
+.square:hover {
+  background: PaleGreen;
+}
+
+.column_label_top, .column_label_bottom, .row_label_left, .row_label_right {
+  border: none;
+  font-size: 20px;
+}
+
+.column_label_top {
+  vertical-align: bottom;
+}
+
+.column_label_bottom {
+  vertical-align: top;
+}
+
+.row_label_left {
+  text-align: right;
+  padding-right: 7px;
+}
+
+.row_label_right {
+  text-align: left;
+  padding-left: 7px;
+}
+
+#td1, #td2, #td3 { border-top-style: none; }
+#td1, #td4, #td7 { border-left-style: none; }
+#td3, #td6, #td9 { border-right-style: none; }
+#td7, #td8, #td9 { border-bottom-style: none; }
+
+#bold {
+  color: Crimson;
+}
