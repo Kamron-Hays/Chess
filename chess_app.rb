@@ -21,7 +21,7 @@ end
 
 post '/' do
   input = params[:input]
-  puts "Post input=#{input}"
+  puts "Post: input=#{input}"
   session[:status] = nil
 
   if input == "restart"
@@ -33,6 +33,7 @@ post '/' do
       session[:side] = (input == 'white') ? :white : :black
       session[:board] = Board.new
       session[:board].setup
+      session[:turn] = :white
       session[:machine] = AI_Player.new(input == 'white' ? :black : :white, session[:board])
       session[:game_over] = false
       session[:status] = "It's #{session[:turn]}'s turn."
@@ -44,53 +45,62 @@ post '/' do
     turn = session[:turn] # the side that needs to move next
     start = session[:start]
 
-    if !session[:game_over]
-      if turn == side
-        # Player's turn
-        puts "Post: player turn"
-        if start.nil? || board.get_side(input) == side
-          puts "Start=" + input
-          session[:start] = input
-        else
-          puts "End=" + input
-          success, message = board.execute_move(start + input, side)
-          session[:start] = nil
-          session[:end] = nil
-          if success
-            session[:turn] = (turn == :white) ? :black : :white
-          else
-            session[:message] = message
-          end
-        end
-      else
-        # Machine's turn
-        puts "Post: machine turn"
-        machine = session[:machine]
-        success, message = board.execute_move(machine.get_input, machine.side)
-        session[:turn] = (turn == :white) ? :black : :white
+    if !session[:promote].nil?
+      puts "Post: promote"
+      puts "promote=#{session[:promote]}, prompt=#{session[:prompt_promote]}"
+      if !session[:prompt_promote] ||
+         (input == "queen" || input == "rook" || input == "bishop" || input == "knight")
+        new_piece = promote
+        board.promote(session[:promote], new_piece)
+        next_turn
+        session[:promote] = nil
+        session[:prompt_promote] = nil
       end
-
-      turn = session[:turn]
-
-      if board.in_check?(turn)
-        if board.mate?(turn)
-          opponent = (turn == :white) ? "Black" : "White"
-          session[:status] = highlight("Checkmate!")
-          session[:status] += " #{opponent} wins!"
-          session[:game_over] = true
+    elsif turn == side
+      # Player's turn
+      puts "Post: player turn"
+      if start.nil? || board.get_side(input) == side
+        puts "Start=" + input
+        session[:start] = input
+      else
+        puts "End=" + input
+        success, message = board.execute_move(start + input, side)
+        session[:start] = nil
+        session[:end] = nil
+        if success
+          next_turn if !promote?
         else
-          session[:status] = "It's #{turn}'s turn."
-          session[:status] += highlight(" Check!")
+          session[:message] = message
         end
-      elsif board.mate?(turn)
-        session[:status] = highlight("Stalemate!")
-        session[:game_over] = true
-      elsif board.draw?
-        session[:status] = highlight("Draw!")
+      end
+    else
+      # Machine's turn
+      puts "Post: machine turn"
+      machine = session[:machine]
+      success, message = board.execute_move(machine.get_input, machine.side)
+      next_turn if !promote?
+    end
+
+    turn = session[:turn]
+
+    if board.in_check?(turn)
+      if board.mate?(turn)
+        opponent = (turn == :white) ? "Black" : "White"
+        session[:status] = highlight("Checkmate!")
+        session[:status] += " #{opponent} wins!"
         session[:game_over] = true
       else
         session[:status] = "It's #{turn}'s turn."
+        session[:status] += highlight(" Check!")
       end
+    elsif board.mate?(turn)
+      session[:status] = highlight("Stalemate!")
+      session[:game_over] = true
+    elsif board.draw?
+      session[:status] = highlight("Draw!")
+      session[:game_over] = true
+    else
+      session[:status] = "It's #{turn}'s turn."
     end
   end
 
@@ -116,4 +126,42 @@ end
 
 def highlight(msg)
   "<span id=highlight>#{msg}</span>"
+end
+
+def promote?
+  status = false
+  # Check if a pawn needs to be promoted
+  piece = session[:board].promote?
+  if piece != nil
+    status = true
+    session[:promote] = piece
+    if piece.side == session[:side]
+      session[:prompt_promote] = true
+    end
+  end
+  status
+end
+
+def promote
+  piece = nil
+  if session[:prompt_promote]
+    puts "promote to #{params[:input]}"
+    case params[:input]
+    when 'queen'
+      piece = Queen.new(nil, session[:side], nil)
+    when 'rook'
+      piece = Rook.new(nil, session[:side], nil)
+    when 'bishop'
+      piece = Bishop.new(nil, session[:side], nil)
+    when 'knight'
+      piece = Knight.new(nil, session[:side], nil)
+    end
+  else
+    piece = session[:machine].promote(session[:promote])
+  end
+  piece
+end
+
+def next_turn
+  session[:turn] = (session[:turn] == :white) ? :black : :white
 end

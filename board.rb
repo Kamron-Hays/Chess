@@ -20,18 +20,20 @@ class Board
   end
 
   def setup
-    ('a'..'h').each { |col| Pawn.new(col+'2', :white, self)   }
-    %w[a h].each    { |col| Rook.new(col+'1', :white, self)   }
-    %w[b g].each    { |col| Knight.new(col+'1', :white, self) }
-    %w[c f].each    { |col| Bishop.new(col+'1', :white, self) }
+    Pawn.new("a7", :white, self)
+    Pawn.new("a2", :black, self)
+    #('a'..'h').each { |col| Pawn.new(col+'2', :white, self)   }
+    #%w[a h].each    { |col| Rook.new(col+'1', :white, self)   }
+    #%w[b g].each    { |col| Knight.new(col+'1', :white, self) }
+    #%w[c f].each    { |col| Bishop.new(col+'1', :white, self) }
     Queen.new("d1", :white, self)
     King.new("e1", :white, self)
 
-    ('a'..'h').each { |col| Pawn.new(col+'7', :black, self)   }
-    %w[a h].each    { |col| Rook.new(col+'8', :black, self)   }
-    %w[b g].each    { |col| Knight.new(col+'8', :black, self) }
-    %w[c f].each    { |col| Bishop.new(col+'8', :black, self) }
-    Queen.new("d8", :black, self)
+    #('a'..'h').each { |col| Pawn.new(col+'7', :black, self)   }
+    #%w[a h].each    { |col| Rook.new(col+'8', :black, self)   }
+    #%w[b g].each    { |col| Knight.new(col+'8', :black, self) }
+    #%w[c f].each    { |col| Bishop.new(col+'8', :black, self) }
+    #Queen.new("d8", :black, self)
     King.new("e8", :black, self)
   end
 

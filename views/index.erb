@@ -11,6 +11,12 @@
         Select which side to play:
         <button id="white" name="white">White</button>
         <button id="black" name="black">Black</button>
+      <% elsif session[:prompt_promote] %>
+        Select piece for pawn promotion:
+        <button id="queen" name="queen">Queen</button>
+        <button id="rook" name="rook">Rook</button>
+        <button id="bishop" name="bishop">Bishop</button>
+        <button id="knight" name="knight">Knight</button>
       <% else %>
         <button id="restart" name="restart">Restart Game</button>
       <% end %>
