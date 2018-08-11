@@ -202,8 +202,19 @@ class Board
     @squares[x][y]
   end
 
+  # Returns the side of the piece (if any) at the specified
+  # algebraic coordinate.
+  def get_side(coordinate)
+    side = nil
+    piece = get(coordinate)
+    if !piece.nil?
+      side = piece.side
+    end
+    side
+  end
+
   # Returns the name and side of the piece (if any) at the specified
-  # algebraid coordinate.
+  # algebraic coordinate.
   def get_name_and_side(coordinate)
     name = nil
     side = nil
@@ -407,5 +418,27 @@ class Board
       end
     end
     [white, black]
+  end
+
+  # Determines if a "draw by insufficient mating material" condition exists for
+  # this board. This method is not exhaustive, but covers the most common cases.
+  def draw?
+    status = false
+    white, black = get_pieces
+    # Both arrays must contain the king. Discard them.
+    white.delete('k')
+    black.delete('k')
+
+    if white.size == 0 # white has only a king
+      if black.size == 0 || # black has only a king or a single knight/bishop
+         (black.size == 1 && (black.include?('n') || black.include?('b')))
+        status = true
+      end
+    elsif black.size == 0 && # black has only a king
+          white.size == 1 && # white has a king and a single knight/bishop
+          (white.include?('n') || white.include?('b'))
+      status = true
+    end
+    status
   end
 end

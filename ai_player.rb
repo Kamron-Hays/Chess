@@ -1,12 +1,14 @@
-class AI_Player < Player
+class AI_Player
   @@DEBUG = false
+
+  attr_accessor :side
 
   def initialize(side, board)
     @side = side
     @board = board
   end
   
-  def get_input(turn)
+  def get_input()
     # Score every possible move, then choose the move with the highest score.
     # If there are multiple moves with the same highest score, randomly choose
     # one. Scoring starts from zero and adds points to encourage movement or
@@ -86,11 +88,7 @@ class AI_Player < Player
 
     puts "best_moves=#{best_moves}" if @@DEBUG
     best_move = best_moves.sample
-    move = Board.to_alg(best_move[0]) + Board.to_alg(best_move[1])
-
-    side = (@side == :white) ? "White" : "Black"
-    puts "[#{turn}] #{side}'s move: #{move} "
-    move
+    Board.to_alg(best_move[0]) + Board.to_alg(best_move[1])
   end
 
   def promote(piece)

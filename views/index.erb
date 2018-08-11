@@ -4,11 +4,11 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
   <body>
-    <h1>Foo</h1>
+    <h1>Chess</h1>
     <p id="status">
       <%= session[:status] %>
       <% if session[:game_over].nil? || session[:game_over] %>
-        Start game or select side
+        Select which side to play:
         <button id="white" name="white">White</button>
         <button id="black" name="black">Black</button>
       <% else %>
@@ -17,7 +17,7 @@
     </p>
     <p>
       <form action="/" id="board" name="board" method="post">
-        <% if false %>
+        <% if session[:turn] != session[:side] && !session[:game_over] %>
           <input type="text" name="input" id="input" value="machine">
         <% else %>
           <input type="text" name="input" id="input">

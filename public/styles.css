@@ -11,6 +11,15 @@ td {
   width: 60px;
   text-align: center;
 }
+
+#highlight {
+  color: red;
+}
+
+#selected {
+  background: yellow;
+}
+
 /*
 #a1, #a3, #a5, #a7,
 #b2, #b4, #b6, #b8,
@@ -22,11 +31,11 @@ td {
 #h2, #h4, #h6, #h8 {
   background: Gray
 }
-*/
+
 .square:hover {
   background: PaleGreen;
 }
-
+*/
 .column_label_top, .column_label_bottom, .row_label_left, .row_label_right {
   border: none;
   font-size: 20px;
