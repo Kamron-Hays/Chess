@@ -2,6 +2,7 @@ $(document).ready(function()
 {
   let status = $('#status').text().trim();
   let input = $('#input').val();
+  let start = "";
 
   if ( input == "machine" )
   {
@@ -12,7 +13,6 @@ $(document).ready(function()
 
   $('button').on('click', function()
   {
-    // Specify if playing X or O.
     let name = $(this).attr("name");
     $('#input').val(name);
     $('#board').submit();
@@ -20,12 +20,11 @@ $(document).ready(function()
 
   $('.square').on('click', function()
   {
-    // Specify which cell to play next.
     let name = $(this).attr("name");
     $('#input').val(name);
     $('#board').submit();
   });
-
+  
   function submit()
   {
     $('#board').submit();

@@ -14,6 +14,7 @@ get '/new' do
   puts "New"
   session[:board] = nil
   session[:status] = nil
+  session[:start] = nil
   session[:turn] = :white
   session[:game_over] = true
   redirect '/'
@@ -66,7 +67,6 @@ post '/' do
         puts "End=" + input
         success, message = board.execute_move(start + input, side)
         session[:start] = nil
-        session[:end] = nil
         if success
           next_turn if !promote?
         else
@@ -108,20 +108,22 @@ post '/' do
   redirect "/"
 end
 
-# Returns the image name of the piece to be displayed at the specified board
+# Returns a view of the piece (if any) at the specified board algebraic
 # coordinate.
-def get_image(coordinate)
-  img = nil
+def get_view(coordinate)
+  img, cls = nil, nil
+  id = "id='#{coordinate}'"
   if !session[:board].nil?
     name, side = session[:board].get_name_and_side(coordinate)
     if !name.nil?
       img = "<img src='pieces/#{name}_#{side}.png' />"
       if coordinate == session[:start]
-        img += "<span id='selected'></span>"
+        cls = " selected"
+        id = nil
       end
     end
   end
-  img
+  "<td #{id} name='#{coordinate}' class='square#{cls}'>#{img}</td>"
 end
 
 def highlight(msg)
